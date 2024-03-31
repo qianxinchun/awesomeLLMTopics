@@ -21,11 +21,25 @@ and provides minimal implementation overhead. We
 observe 20% faster step times with our FSDP-backed implementation, a notable gain given LLaVa leverages the welloptimized DeepSpeed ZeRO library. 
 
 ## the same choices used by many other recent VLMs: “letterbox padding” to process images
+因此，不改变原图宽高比的前提下对图像进行缩放是很有必要的，这就是letterbox padding的用处。
+执行letterbox padding时通常遵循以下步骤：
+计算目标分辨率与原始图像之间的宽高比差异。
+根据宽高比，确定哪个维度（宽度或高度）需要完全匹配目标尺寸，而另一个维度则按比例缩放，以避免图像内容扭曲。
+将图像缩放到这样的尺寸，使宽度或高度完全匹配目标分辨率，而另一维度的长度小于或等于目标分辨率。
+在较短的一维两侧添加条纹（"paddings"），这些条纹通常是黑色，但也可以是其他颜色或图案，以此来填充缺失的空间，使得处理后的图像符合目标分辨率。
+例如，如果要将16:9的视频帧调整为1:1的正方形形状，就可以在视频帧的上下或左右添加等宽的条纹。
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2bea6c1f-0277-4365-82cc-eee69c4db34f)
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/6092738f-cdb4-42e6-a933-87122c8694b6)
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/319f5795-2227-4f2b-8bf1-5d583ddc0c3f)
+（1） We find (Fig. 4; left) that including the explicit projector pretraining stage is unnecessary,
+with single-stage training improving aggregate performance
+(p = 0.007). Eliminating this first stage saves 20-25% of
+training cost, and removes the need for additional, stagespecific data (e.g., the captioning subset from §2). As this
+change strictly improves performance and efficiency, we
+adopt single-stage training for all following experiments.
+（2）
 
 
