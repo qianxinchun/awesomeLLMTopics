@@ -168,6 +168,10 @@ hallucination 是多模态更容易体现出来的一个问题，造成的潜在
 ### RLHF/DPO for LMM
 前面提到的 alignment 和 sft 更多地还是依赖于人类标注的数据，当人类无法给出 ground-truth 的标注的时候，我们就需要构建一个 reward model 来告诉我们哪些回复是更合适的。RLHF 和 DPO 已经在大语言模型上被验证了有效性，但当存在额外的模态的时候，如何定义哪个回复是更好的（例如会有更多样的偏见），如何更好地协调一致的 reward label 的标注等等都会带来新的问题和挑战。我们的 VLFeedback 提供了一个很直给的方案，让 GPT-4V 来标注不同方面的分数，在一种 benchmark 上验证了这个框架的有效性。但最近我们也发现 DPO 在不同基模型上的效果还不太一样，存在很多细节的问题值得进一步的分析。
 
+### 深度好文！
+1. 视觉编码器的分辨率可以在多模态训练过程中变化吗？比如每个step，随机从一个区间内sample一个分辨率？
+2. flamingo式的没有流行起来，有没有原因之一是因为scale up上不如方式一有效率呢（类比t5式的pp上效率低一些）？
+NaVIT 就是这么干的，工程上 packing 实现好就行，Jax 实现你懂的（x每层都插 Cross-Attention 确实不好 scale，但我在想现在 ViT 当 encoder 会不会也有 pp 的问题（vision encode 速度 << word embedding）。如果能搞成 offline 的 embedding 估计应该能更上一层楼
 
 
 # 6. Mitigating Hallucination in Large Multi-Modal Models via Robust Instruction Tuning https://github.com/FuxiaoLiu/LRV-Instruction https://arxiv.org/pdf/2306.14565.pdf
