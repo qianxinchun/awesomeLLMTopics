@@ -118,6 +118,12 @@ and biases associated with language models (Touvron et al.,
 2023; Brown et al., 2020), as well as with underlying vision
 models and corresponding pretraining datasets
 
+# 5. 我们与 GPT-4V 的距离 https://zhuanlan.zhihu.com/p/686257072
+
+
+
+
+# 5. Mitigating Hallucination in Large Multi-Modal Models via Robust Instruction Tuning https://github.com/FuxiaoLiu/LRV-Instruction https://arxiv.org/pdf/2306.14565.pdf
 
 
 
