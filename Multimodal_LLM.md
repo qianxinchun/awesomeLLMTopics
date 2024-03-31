@@ -210,7 +210,7 @@ simultaneously.
 # 8. 万字长文总结多模态大模型最新进展（Modality Bridging篇） https://zhuanlan.zhihu.com/p/688215018 
 这个知乎文章是一个很清楚的综述；
 
-很好的综述git repo https://github.com/yfzhang114/Awesome-Multimodal-Large-Language-Models
+很好的综述git repo，而且最近在更新中， https://github.com/yfzhang114/Awesome-Multimodal-Large-Language-Models
 
 
 
