@@ -120,10 +120,21 @@ models and corresponding pretraining datasets
 
 # 5. 我们与 GPT-4V 的距离 https://zhuanlan.zhihu.com/p/686257072 https://reka.ai/reka-flash-an-efficient-and-capable-multimodal-language-model/
 "此外，应对上下文的限制，QFormer、Perceiever 也已经被广泛地验证了其有效性。"
+
 "应用场景广泛：这个也很直接，日常生活中大多数数据的呈现方式就是，图片 + 文本 -> 文本的范式能够极大扩充模型处理任务的范围。另外，随着大语言模型发展催生出的一系列 Agent 研究，在浏览网页的时候会依赖 html 作为输入。如果能够直接让 Agent 看到屏幕，输出对应的操作坐标，更加简洁优雅。进一步地，Deepmind 的 RT 2 也验证了视觉语言模型能够很快地迁移到诸如 robotic 场景，在 embodied 环境中发挥重要的作用。"
+
 "我们也同样可以用这一条路径来进一步验压缩即智能这一想法，看看这一框架是否能够在具备了更丰富模态信息后，背后世界模型的学习速率是否会进一步加快。"
+
 "模态桥接（Modality Bridge）：负责将视觉编码器得到的图片表示进行变换映射到新的空间方便 LLM 进行处理。这里的做法有一些不同的方案：
 (1) Image as Word Embedding：一种经典的尝试是将视觉编码器得到的图片向量通过简单的 MLP 映射到对应的 word embedding 维度，随后就可以将图片作为多个 word embeddings 进行统一的处理。这一方面的局限是视觉编码器的分辨率往往是固定且比较小的(224px 和 336px)。而在很多场景下这样的分辨率完全不够用（OCR 识别、Agent浏览等），可以通过 post-training 来提升图片的分辨率也可以 bypass 掉 image encoder（没有了预训练分辨率的限制），直接将图片切成小块，随后映射到 word embedding 空间，Fuyu-8B 就是这样一个思路，在高分辨率的场景下展现出了非常出色的性能。分辨率提升带来的图片向量数量平方级增长带来的计算开销，可以通过利用 QFormer 或者是 Perceiver 来映射到固定数量来解决。 (2) Cross Attention to Visual Embedding: Deepmind 最早搞的 Flamingo 就是通过在 LLM 中引入额外的 Gated Cross-Attention Layer，来在文本生成的过程中整合视觉端的信息. 这种方案对区分不同模态有着更加强的先验，但后续看到的一些开源实现和改进，都很难超越前一种方案。如果训练量足够大，那么在前一种方案中 LLM 也能够自适应地学习到这种先验，因而我个人觉得这个方案或许在 2 年前是有道理，但在今天 scaling law 的暴力美学下，可能更少先验，更多数据会是朴实且有效的方案。"
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/b544c4a0-157c-4ac0-b154-24f380329465)
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2412227c-6d77-4607-8ca2-78278809c7ee)
+
+
+
+
+
 
 
 
