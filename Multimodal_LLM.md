@@ -165,7 +165,8 @@ SFT 端：我认为在足够好的对齐 + 在基模型足够强大这两个条�
 hallucination 是多模态更容易体现出来的一个问题，造成的潜在后果也挺大，这方面测评的benchmark 像 POPE 和 MMHal。但是 POPE 有个问题这个数据集依赖于 COCO 的 tag，就我个人的经验而言，那个 tag 的准确率并不高，POPE 上的分数因而会收到一定程度的影响。此外，大家认为 math reasoning 可能是比较有挑战性的任务，因此像 MMMU 和 MathVista 的关注度都比较高，目前 GPT-4V 也距离人类还是有很大差距。这块我们最近的一个工作是意识到 ArXiv 上的很多 paper 天然也是多模态的，并且涵盖了丰富的学科内容，因而我们构建了一个 Multimodal ArXiv，提供 captioning 和 QA (GPT-4V generated）的数据集，能够很有效地提升模型数学推理的能力。
 
 
-
+### RLHF/DPO for LMM
+前面提到的 alignment 和 sft 更多地还是依赖于人类标注的数据，当人类无法给出 ground-truth 的标注的时候，我们就需要构建一个 reward model 来告诉我们哪些回复是更合适的。RLHF 和 DPO 已经在大语言模型上被验证了有效性，但当存在额外的模态的时候，如何定义哪个回复是更好的（例如会有更多样的偏见），如何更好地协调一致的 reward label 的标注等等都会带来新的问题和挑战。我们的 VLFeedback 提供了一个很直给的方案，让 GPT-4V 来标注不同方面的分数，在一种 benchmark 上验证了这个框架的有效性。但最近我们也发现 DPO 在不同基模型上的效果还不太一样，存在很多细节的问题值得进一步的分析。
 
 
 
