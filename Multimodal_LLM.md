@@ -7,5 +7,7 @@
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/c9875780-52bb-4428-9f89-0fd43866281d)
 
 # 3. 在用llava架构训vlm时，llm基模选择base模型好还是chat模型好呢？ https://www.zhihu.com/question/650838721/answer/3448817012
+原问题：看很多模型都是用base，但像mobilevlm用的chat模型效果指标也挺好。而且llava1.6的34b基模也是在Yi34b上finetune过的。所以有人做过实验测试vlm用base或chat的差别吗？
+
 
 
