@@ -12,6 +12,13 @@
 “个人觉得benchmark只能做为参考的一部分，一个好的vlm给用户的体感很重要，要得到generalization且instruction-following比较强的vlm还是得在chat模型上。benchmark的问题（instruction）形式都比较简单，很容易理解，跟user问的各种模糊且奇葩问题完全是两个概念。”
 
 # 4. Prismatic VLMs: Investigating the Design Space of Visually-Conditioned Language Models https://arxiv.org/pdf/2402.07865.pdf https://github.com/TRI-ML/prismatic-vlms https://github.com/TRI-ML/vlm-evaluation
+With these requirements,
+we implement our training codebase in PyTorch, using Fully
+Sharded Data Parallel (FSDP; Zhao et al., 2023) and BF16
+mixed precision. FSDP lets us specify precision for individual model components (e.g., FP16 for vision backbones,
+BF16 for LMs), enables portability to different hardware,
+and provides minimal implementation overhead. We
+observe 20% faster step times with our FSDP-backed implementation, a notable gain given LLaVa leverages the welloptimized DeepSpeed ZeRO library. 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2bea6c1f-0277-4365-82cc-eee69c4db34f)
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/6092738f-cdb4-42e6-a933-87122c8694b6)
