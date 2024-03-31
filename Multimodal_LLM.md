@@ -118,7 +118,10 @@ and biases associated with language models (Touvron et al.,
 2023; Brown et al., 2020), as well as with underlying vision
 models and corresponding pretraining datasets
 
-# 5. 我们与 GPT-4V 的距离 https://zhuanlan.zhihu.com/p/686257072
+# 5. 我们与 GPT-4V 的距离 https://zhuanlan.zhihu.com/p/686257072 https://reka.ai/reka-flash-an-efficient-and-capable-multimodal-language-model/
+"此外，应对上下文的限制，QFormer、Perceiever 也已经被广泛地验证了其有效性。"
+"应用场景广泛：这个也很直接，日常生活中大多数数据的呈现方式就是，图片 + 文本 -> 文本的范式能够极大扩充模型处理任务的范围。另外，随着大语言模型发展催生出的一系列 Agent 研究，在浏览网页的时候会依赖 html 作为输入。如果能够直接让 Agent 看到屏幕，输出对应的操作坐标，更加简洁优雅。进一步地，Deepmind 的 RT 2 也验证了视觉语言模型能够很快地迁移到诸如 robotic 场景，在 embodied 环境中发挥重要的作用。"
+
 
 
 
