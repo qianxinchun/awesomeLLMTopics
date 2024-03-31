@@ -19,6 +19,9 @@ mixed precision. FSDP lets us specify precision for individual model components 
 BF16 for LMs), enables portability to different hardware,
 and provides minimal implementation overhead. We
 observe 20% faster step times with our FSDP-backed implementation, a notable gain given LLaVa leverages the welloptimized DeepSpeed ZeRO library. 
+
+## the same choices used by many other recent VLMs: “letterbox padding” to process images
+
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2bea6c1f-0277-4365-82cc-eee69c4db34f)
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/6092738f-cdb4-42e6-a933-87122c8694b6)
