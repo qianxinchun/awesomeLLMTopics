@@ -133,6 +133,21 @@ models and corresponding pretraining datasets
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2412227c-6d77-4607-8ca2-78278809c7ee)
 
+## 训练数据
+### Alignment Dataset
+一种解决思路是对 alignment数据集进行更加细粒度的表述，进而能够帮助模型更好地学习图片中物体的相关位置等关系，和LLM原先的知识挂上钩。ShareGPT4V 就是一个很好的尝试，验证了利用 GPT-4V 重新标注 image captions，就能够带来明显的提升。除了 ShareGPT4V 以外，CapsFusion 也展现了用更丰富的 caption （https://huggingface.co/datasets/BAAI/CapsFusion-120M CAPSFUSION: Rethinking Image-Text Data at Scale https://github.com/baaivision/CapsFusion  However, our experiments reveal significant Scalability Deficiency and World Knowledge Loss issues in models trained with synthetic captions,
+which have been largely obscured by their initial benchmark success. Upon closer examination, we identify the
+root cause as the overly-simplified language structure and
+lack of knowledge details in existing synthetic captions.
+To provide higher-quality and more scalable multimodal
+pretraining data, we propose CAPSFUSION, an advanced
+framework that leverages large language models to consolidate and refine information from both web-based image-text
+pairs and synthetic captions.）带来的提升，并且开源了 100M 的数据集。
+
+from CAPSFUSION
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/728753e2-b9e6-49b3-8f3c-b1ab64913f5c)
+
+
 
 
 
