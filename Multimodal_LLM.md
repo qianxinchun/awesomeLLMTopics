@@ -199,6 +199,18 @@ empowers current frameworks with image understanding, reasoning, and generation
 simultaneously.
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/afd45b99-2aa5-4704-ac8a-144865ff7667)
 
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/ba0dae48-ff39-436e-a3f6-f21cdc3ac884)
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/b202a3ec-2057-48da-a522-82153034b151)
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/d7b214e4-eb4a-485b-8188-3732a4ce3c8e)
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/8b2fc0f0-8c87-4ceb-b196-a8a67ae51eab)
+
+# 8. 万字长文总结多模态大模型最新进展（Modality Bridging篇） https://zhuanlan.zhihu.com/p/688215018 
+这个知乎文章是一个很清楚的综述；
+
+很好的综述git repo https://github.com/yfzhang114/Awesome-Multimodal-Large-Language-Models
 
 
 
