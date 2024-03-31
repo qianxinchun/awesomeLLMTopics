@@ -11,6 +11,11 @@
 “对多模态大模型的LLM基座来说，base模型更好，经过SFT的模型更容易产生带幻觉的冗长回答。这个观察来自于Stanford的Percy Liang团队最近的论文Prismatic VLMs: Investigating the Design Space of Visually-Conditioned Language Models，此文探索了多模态大模型设计的诸多关键要素，题主的问题——LLM基座选base还是chat是其中重要的一点。可以看出，使用经过SFT的Vicuna-v1.5模型并不能带来显著的性能提升，而且从以下的定性cases中可以看出使用Vicuna的模型倾向于产生更冗长、幻觉程度更严重的答案，因此作者推荐在训练视觉-语言大模型时使用base版本的LLM作为文本侧的基座模型。”
 “个人觉得benchmark只能做为参考的一部分，一个好的vlm给用户的体感很重要，要得到generalization且instruction-following比较强的vlm还是得在chat模型上。benchmark的问题（instruction）形式都比较简单，很容易理解，跟user问的各种模糊且奇葩问题完全是两个概念。”
 
+# 4. Prismatic VLMs: Investigating the Design Space of Visually-Conditioned Language Models https://arxiv.org/pdf/2402.07865.pdf https://github.com/TRI-ML/prismatic-vlms https://github.com/TRI-ML/vlm-evaluation
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/2bea6c1f-0277-4365-82cc-eee69c4db34f)
 
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/6092738f-cdb4-42e6-a933-87122c8694b6)
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/319f5795-2227-4f2b-8bf1-5d583ddc0c3f)
 
 
