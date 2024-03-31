@@ -34,12 +34,36 @@ observe 20% faster step times with our FSDP-backed implementation, a notable gai
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/6092738f-cdb4-42e6-a933-87122c8694b6)
 
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/319f5795-2227-4f2b-8bf1-5d583ddc0c3f)
+## Experiments – Investigating Design Axes
 （1） We find (Fig. 4; left) that including the explicit projector pretraining stage is unnecessary,
 with single-stage training improving aggregate performance
 (p = 0.007). Eliminating this first stage saves 20-25% of
 training cost, and removes the need for additional, stagespecific data (e.g., the captioning subset from §2). As this
 change strictly improves performance and efficiency, we
 adopt single-stage training for all following experiments.
-（2）
+（2）we ask – is there potential to improve VLM performance by
+finetuning the full model, including the visual backbone?
+We find (Fig. 5) that this is not the case, and that finetuning the visual backbone significantly degrades performance. The degraded performance from full finetuning
+could be for a number of reasons ranging from the scale
+and diversity of the vision-language data we train on to
+language generation as a learning objective (vs. objectives
+that encourage learning fine-grained perceptual features).
+（3）We find
+that the backbones trained with vision-language contrastive
+objectives (i.e., CLIP and SigLIP) are significantly more
+performant than alternatives (p = 8.88e-8). while cropping is clearly suboptimal, the
+“naive resize” scheme is the most performant for CLIP. For
+SigLIP, both “naive resize” and “letterbox padding” perform
+similarly. In general, our results favor “naive resizing” over
+“letterbox padding” but we cannot rule the improvement
+statistically significant (p = 0.0148). An image with a 16:9 aspect ratio that
+is padded to square introduces a large amount of uninformative pixels (exceeding 40%); warping the aspect ratio is
+possibly less of a shift. Coupled with the innate patch dimensionality of a Vision Transformer (d = 1024 for a 16 × 16
+pixel patch), naively resizing an image may preserve enough
+information for the downstream LM (with 7B+ parameters)
+to extract the properties necessary for downstream tasks.
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/a04b2107-4ed6-4932-b19c-cf0933973cbc)
+
+（3）
 
 
