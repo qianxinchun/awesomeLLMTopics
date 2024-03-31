@@ -173,8 +173,32 @@ hallucination 是多模态更容易体现出来的一个问题，造成的潜在
 2. flamingo式的没有流行起来，有没有原因之一是因为scale up上不如方式一有效率呢（类比t5式的pp上效率低一些）？
 NaVIT 就是这么干的，工程上 packing 实现好就行，Jax 实现你懂的（x每层都插 Cross-Attention 确实不好 scale，但我在想现在 ViT 当 encoder 会不会也有 pp 的问题（vision encode 速度 << word embedding）。如果能搞成 offline 的 embedding 估计应该能更上一层楼
 
+# 6. 研究表明多模态大语言模型在视觉处理方面仍存在普遍性的缺陷，应如何解诀此缺陷？ The limits vision-language models (VLMs) hinder AGI progress https://twitter.com/IntuitMachine/status/1766485490495017326
+However, a new study evaluating state-of-the-art VLMs on challenging visual reasoning tasks highlights key bottlenecks that pose significant obstacles to achieving human-level AGI. 
+This outcome revealed three critical bottlenecks underlying VLMs' poor visual reasoning abilities:
 
-# 6. Mitigating Hallucination in Large Multi-Modal Models via Robust Instruction Tuning https://github.com/FuxiaoLiu/LRV-Instruction https://arxiv.org/pdf/2306.14565.pdf
+1) Perception issues - VLMs struggled to accurately perceive and describe the abstract visual patterns in RPMs, making compounding mistakes and confusing patterns with each other.
+
+2) Deductive reasoning limitations - Even given perfect text descriptions, VLMs could not reliably induce the underlying rules governing how the visual patterns progressed between matrices.
+
+3) Hypothesis verification problems - VLMs had trouble formulating hypotheses about the missing pattern that completed the sequence, and verifying those hypotheses against the given visual options.
+
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/453e2d04-5b0f-4c63-aaa5-1c7d369178c5)
+
+
+
+# 7. Mini-Gemini: Mining the Potential of Multi-modality Vision Language Models https://github.com/dvlab-research/MiniGemini https://arxiv.org/pdf/2403.18814.pdf
+We try to narrow the gap
+by mining the potential of VLMs for better performance and any-to-any workflow
+from three aspects, i.e., high-resolution visual tokens, high-quality data, and VLMguided generation. To enhance visual tokens, we propose to utilize an additional
+visual encoder for high-resolution refinement without increasing the visual token
+count. We further construct a high-quality dataset that promotes precise image
+comprehension and reasoning-based generation, expanding the operational scope
+of current VLMs. In general, Mini-Gemini further mines the potential of VLMs and
+empowers current frameworks with image understanding, reasoning, and generation
+simultaneously.
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/afd45b99-2aa5-4704-ac8a-144865ff7667)
+
 
 
 
