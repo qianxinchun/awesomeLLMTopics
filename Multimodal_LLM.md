@@ -149,9 +149,20 @@ from CAPSFUSION
 
 
 
+### SFT Dataset
+学术界开源的比较好的训练数据目前主要是 LLaVA 系列，其利用 bounding box 等辅助信息将图片文本化后，利用 ChatGPT/GPT-4 来生成了大量的 pseudo multimodal pair (detailed captioning, reasoning and conversation)。这个范式非常有效，也是为什么 LLaVA 系列一出来效果很惊艳的原因。但他依旧存在着一些问题：
+
+因为 ChatGPT 并没有真正地看到图片内容，其 pseudo multimodal 的数据必然会引发 hallucination 问题。这一点也是目前大家关注的重点。解决的方案有 LLaVA-RLHF ，通过额外引入一个 Factual reward model 来提升 hallucination； Volcano 则是用 self-feedback 来 revise 输出。或者更直接一点，我们可以用早先人工标注的数据做一下统一格式，在保真度方面就会有很大的提升。这方面我们做了 M3IT （https://huggingface.co/datasets/MMInstruction/M3IT https://m3-it.github.io/ We introduce the Multi-Modal, Multilingual Instruction Tuning (M3IT) dataset, comprises 40 carefully curated datasets, including 2.4 million instances and 400 manually written task instructions, reformatted into a vision-to-text structure. Key tasks are translated into 80 languages with an advanced translation system. We train a VLM model on our M³IT dataset, showcasing its potential to answer complex questions, generalize to unseen video tasks, and comprehend unseen instructions in Chinese.），整合了之前很多常用的数据集，方便大家做 SFT 。
+任务的覆盖面不够广，在重要的 OCR、Chart 场景下能力都有所欠缺。这点我们对比 Qwen、LLaVA 1.5 以及 LLaVA-Next 的性能就能看出来，使用了更多更丰富的多模态数据集，基本上都能对下游如 MMMU、MathVista 等测评数据集有所提升。
 
 
+### GPT-4V 背后一定是大量的数据工程
+Alignment 端：相比于开源模型利用 CLIP 等作为 vision encoder，OpenAI 应该采用了强化版的 CLIP 模型（毕竟现在的 CLIP 还都是他们 2021 年的成果）。之前的 CLIP 不够好的很大原因就在于图片和文本的信息量不对等，caption 大多是简单的几个词来描述物体，而图片中则有丰富的颜色、位置等时空信息。不妨可以想象一下，我们用现在的 GPT-4V 标注整个 web images（~ 10B level ?），提升文本端的丰富度并对 hallucination 做控制。在此数据集基础上我们训练一个 vision encoder，再迭代地更新 GPT-4V，相信会有一个明显的提升；
+SFT 端：我认为在足够好的对齐 + 在基模型足够强大这两个条件下，可能只需要足够多样的（质量 >> 数量）的 prompting 数据就能够在现在的 VQA、Captioning benchmark 上表现出色。因为客观来说，现在的测评数据集也都集中在这两个任务形式上，因此少量的 prompt 就能够泛化到下游的数据集上。
 
+
+### 特定领域的 Benchmark
+hallucination 是多模态更容易体现出来的一个问题，造成的潜在后果也挺大，这方面测评的benchmark 像 POPE 和 MMHal。但是 POPE 有个问题这个数据集依赖于 COCO 的 tag，就我个人的经验而言，那个 tag 的准确率并不高，POPE 上的分数因而会收到一定程度的影响。此外，大家认为 math reasoning 可能是比较有挑战性的任务，因此像 MMMU 和 MathVista 的关注度都比较高，目前 GPT-4V 也距离人类还是有很大差距。这块我们最近的一个工作是意识到 ArXiv 上的很多 paper 天然也是多模态的，并且涵盖了丰富的学科内容，因而我们构建了一个 Multimodal ArXiv，提供 captioning 和 QA (GPT-4V generated）的数据集，能够很有效地提升模型数学推理的能力。
 
 
 
