@@ -41,6 +41,7 @@ with single-stage training improving aggregate performance
 training cost, and removes the need for additional, stagespecific data (e.g., the captioning subset from §2). As this
 change strictly improves performance and efficiency, we
 adopt single-stage training for all following experiments.
+
 （2）we ask – is there potential to improve VLM performance by
 finetuning the full model, including the visual backbone?
 We find (Fig. 5) that this is not the case, and that finetuning the visual backbone significantly degrades performance. The degraded performance from full finetuning
@@ -48,6 +49,7 @@ could be for a number of reasons ranging from the scale
 and diversity of the vision-language data we train on to
 language generation as a learning objective (vs. objectives
 that encourage learning fine-grained perceptual features).
+
 （3）We find
 that the backbones trained with vision-language contrastive
 objectives (i.e., CLIP and SigLIP) are significantly more
@@ -64,6 +66,60 @@ information for the downstream LM (with 7B+ parameters)
 to extract the properties necessary for downstream tasks.
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/a04b2107-4ed6-4932-b19c-cf0933973cbc)
 
-（3）
+（4）A rich
+body of prior work in vision identifies that different types
+of visual representations trained with different inductive
+biases can lead to improved performance for a broad spectrum of applications (Kobayashi et al., 2022; Karamcheti
+et al., 2023).  We
+find (Fig. 7 - left) that fusing DINOv2 and SigLIP features
+provides significant gains across the board (p = 0.00162),
+with a notable exception for the DINOv2 + CLIP models
+(p = 0.4066), where combining DINOv2 features seem to
+be particularly harmful on TextVQA. Looking at the remaining results, we see especially impressive gains of 5-10% on
+localization and challenge tasks; in general, the DINOv2 +
+SigLIP fused representations are the most performant visual
+representations we try, with virtually no added parameters. 
+
+（5） Unfortunately,
+instruct tuning has drawbacks, introducing bias and regressions in performance (Ouyang et al., 2022). We find (Fig. 7 - right) that instruction-tuned LMs yield no
+statistically significant improvement in performance over
+base LMs (p = 0.373), but differ in qualitative performance.
+Specifically, we observe that instruct-tuned LMs lead to
+VLMs that are more verbose, prone to hallucination, and
+generally less specific in their responses (Fig. 11).  However, given that the language-only data is the only
+source of “safety” data during finetuning, we explicitly
+probe our VLMs with directly offensive and toxic prompts,
+to evaluate how important this data is for inducing safeguards on VLM outputs. In our adversarial testing, we find
+that especially for VLMs trained from base LMs such as
+Llama-2, including this co-training data is important for
+inducing at least a minimal set of safeguards.
+
+（6）Unsurprisingly, we find (Fig. 10; middle) evidence
+of severe underfitting with a single epoch, with steady improvement (especially for tasks requiring structured outputs
+such as RefCOCO) until two epochs, when performance
+plateaus. We find that training for two epochs yields a significant increase in improvement over training for one epoch. We find (Fig. 10; right) that adding both datasets
+improves performance (p = 0.0138), but that LRV-Instruct
+offers most of the resulting performance gain, an indication
+that sourcing diverse images will be increasingly important
+to scaling future VLMs.
+
+（7） Of
+primary concern is the generality of our model architecture;
+while the three component architecture we define in §2 is
+reflective of the majority of existing VLMs, there are other
+architecture innovations and optimization procedures that
+our study does not currently capture; as a notable example, we do not study the Perceiver-based architectures used
+by models such as Flamingo or IDEFICS (Alayrac et al.,
+2022; Laurenc¸on et al., 2023) for interleaved image-text
+training.
+
+（8） Visually-conditioned language models inherit all of the risks
+and biases associated with language models (Touvron et al.,
+2023; Brown et al., 2020), as well as with underlying vision
+models and corresponding pretraining datasets
+
+
+
+
 
 
