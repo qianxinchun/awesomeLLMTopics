@@ -88,3 +88,27 @@ v2这篇论文也提到了不能只用数据并行的两个原因：
 1.数据并行占用显存大。当然这个是说普通的数据并行，zero123显然降低了显存的使用
 
 2.只数据并行时的 batch size >= 卡数，且是卡数的倍数。假设万卡，我就想batch size=100，只数据并行就不行了。
+
+# 3. 如何评价微软开源的分布式训练框架deepspeed？
+https://www.zhihu.com/question/371094177/answer/1058062905
+"主要是为数据并行“节省内存“做了一系列很聪明的创新（在这篇论文之前，我们团队的小伙伴儿也发现了类似的技巧，遗憾并没有发表）。节省内存来自两方面（细节可以看论文）：1，对optimizer 阶段的重构，从原来上来就allreduce，各个节点都保持一份weight, gradient以及adam 需要mean, var等，变成只在一个节点保存，通信变成了reduce和broadcast；2，各个层次的参数生命周期不重叠，每个节点仅保存计算时需要的参数。我并不认同论文最后对数据并行和模型并行的讨论。DeepSpeed实质上仍是数据并行， 和 Nvidia Megatron的模型并行相比有优势，原因是Megatron在不应该用模型并行的地方使用了模型并行。举个例子，如果某一个layer的参数量巨大，大到一块GPU装不下，或者即使装的下，使用DeepSpeed 通信量也比模型并行高的话，模型并行仍是最优选择。zero 可以认为理解成数据并行，不过是把参数sharding到多个设备上去，当需要完整参数时，再从其它设备取过来。和tensor model parallelism 不一样"
+![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/aa1c022e-9fe4-4613-b991-475dd8247535)
+
+# 4. 扒一扒Nvidia大规模分布式训练框架Megatron-LM的坑和优化点？
+https://www.zhihu.com/question/633778272/answer/3388811917
+### 关于LLM结构中Tied Embedding的相关思考
+https://zhuanlan.zhihu.com/p/667504988
+tied embedding在和zero1结合的时候，不能通过reduce-scatter做最后一步的overlapping gradient reduce，会在最后同步word embedding和lm head梯度的时候造成错位，这种情况下使用all-reduce代替reduce-scatter，性能损失还是相当严重的
+
+### 谈一谈Distributed Optimizer(ZERO)坑爹的地方
+https://www.zhihu.com/question/633778272/answer/3388811917
+目前LLM大语言模型训练框架中无一例外都使用ZERO1优化器进行训练，能够大幅度降低设备内存占用且不会增加GA（Gradient Accumulation）过程中的开销，因为除了最后一个micro-step，其他step不会产生额外的通信开销，如果是ZERO2-3，那就全程坑爹了，这里就不得不问候一下阿里团队开源的Megatron-LLAMA的核心优化（overlapped zero2），虽然进一步降低了设备内存占用，但是带来的使用限制（GA过程中会有额外的gradient通信，适用于GA较少的场景，对于超大模型就算是千卡集群GA都不会小）显然已经掩盖了它唯一的优点！
+有点跑题了……其实综合看下来也就只能ZERO1了，瑕不掩瑜，综合性能还是很扛打的，那么为什么说它坑爹呢？？？
+原因有如下几点：
+ZERO1会存在DP组梯度的all-reduce/reduce-scatter，由于魔改了DDP，所以一般实现没有跟最后一个step的backward做overlap，然后是sharded parm-state更新完参数后需要all gather所有的parameters，这一步常见的实现也是没有跟下一个batch的第一个step的前向做overlap的。上图！！！
+2. 现在部分框架已经能够支持一个batch的最后一个step的backward同all-reduce/reduce-scatter做分桶overlap，但是非常坑爹的是，对于较小模型，如7B/13B，在DP组越来越大的时候，对应bucket的通信是越来越慢的，多次切分通信开销大于单次。那么大到一定程度上，overlap的加速效果就慢慢没有了，到了最后就坑了，反而更慢了。具体数据就不贴了，实在是不好截图，自己复现一下就行哈……
+3. 除此之外，还有一个神坑，那就是DP组越大，bucket分的越细，最后在聚合处理时GPU的空闲时间越长，下一个通信算子的时间也会变长，这就是不太能忍了，说啥也不能让GPU空闲不是
+
+### 原始问题的回复
+
+题主提到的两个例子，其实都是调试相关的问题。做系统的人，扒一扒源码，改一改配置，很快就能解决了。比如tied embedding在大模型里基本不会开启，zero stage1的bucket size开得大一点可以提高通信效率。如果dp group size太大导致参数切得太碎，还可以像fsdp一样将shard group和dp group解耦。当然，这两个例子也反映出megatron最大的坑其实在于系统太过臃肿，真正重要的参数藏在一堆无关紧要的特性里，对于不懂系统的人来说还是太难用了。比如在没有配置好pretrain脚本的情况下，算法背景的人想预训练一个标准的llama模型都很麻烦。这可能也解释了为什么开源社区大多选择更加简单易用的fsdp/zero stage3来训练大模型。如果是用到模型并行，deepspeed-megatron要比megatron用得更多，大概也是因为最早gpt-neox是基于前者跑通的，降低了其它用户调试的成本。哪怕是面向系统背景的用户，很多大模型预训练团队也选择了“重新造轮子”，开发适合自己场景的分布式训练系统，例如huggingface的nanotron。毕竟对于transformer大模型而言，实现分布式训练并不难，更重要的是方便自己开发、调试和维护。
