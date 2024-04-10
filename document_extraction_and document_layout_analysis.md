@@ -4,7 +4,11 @@ tutorials: https://deepdoctection.readthedocs.io/en/latest/tutorials/get_started
 colab: https://colab.research.google.com/drive/1CZSPnGZZB_RMoQtJd7bRcT4luJb5QUb5#scrollTo=pEyjdQ80AtFL
 https://huggingface.co/spaces/deepdoctection/deepdoctection
 
-## 002. https://layout-parser.github.io/
+## 002. the tutorial from @nielsr Transformers-Tutorials/LayoutLMv3 at master · NielsRogge/Transformers-Tutorials · GitHub 
+https://github.com/NielsRogge/Transformers-Tutorials/tree/master/LayoutLMv3
+
+
+## 003. https://layout-parser.github.io/
 https://youtu.be/YG0qepPgyGY
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/92bbaa08-8f85-403c-b3d3-6f7246822c3a)
 
