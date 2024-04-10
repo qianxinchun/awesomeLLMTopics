@@ -17,6 +17,13 @@ Transform document image analysis pipelines with the full power of Deep Learning
 ## 001. Document Layout Analysis, a complete guide https://kili-technology.com/data-labeling/machine-learning/document-layout-analysis-a-complete-guide
 ![image](https://github.com/qianxinchun/awesomeLLMTopics/assets/7309139/b2a8d761-34a8-4b1d-bf2f-f6b5f19eb0a2)
 
+## 002. Deep Dive Document Layout Analysis with High-Tech Tools
+https://konfuzio.com/en/document-layout-analysis/
+
+## 003. LayoutLMv3: from zero to hero — Part 2 Create custom dataset to train LayoutLMV3 model
+https://medium.com/@shivarama/layoutlmv3-from-zero-to-hero-part-2-d2659eaa7dee
+https://medium.com/@shivarama/layoutlmv3-from-zero-to-hero-part-3-16ae58291e9d
+
 
 # 3. APIs
 ## 001. Document Intelligence layout model https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept-layout?view=doc-intel-4.0.0
