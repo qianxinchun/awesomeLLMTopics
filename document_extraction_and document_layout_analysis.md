@@ -16,6 +16,9 @@ https://youtu.be/YG0qepPgyGY
 Layout Analysis – in 4 Lines of Code
 Transform document image analysis pipelines with the full power of Deep Learning.
 
+## 004. https://ubiai.tools/fine-tuning-layoutlmv3-customizing-layout-recognition-for-diverse-document-types/
+
+
 
 # 2. Tutorials
 ## 001. Document Layout Analysis, a complete guide https://kili-technology.com/data-labeling/machine-learning/document-layout-analysis-a-complete-guide
